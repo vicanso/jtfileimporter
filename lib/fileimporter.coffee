@@ -260,12 +260,14 @@ class FileImporter extends events.EventEmitter
         return
     else
       code = fs.readFileSync readFile, 'utf8'
-    context = _.clone @options.context
-    context.require = (subFile) ->
-      subFile += '.js' if !path.extname subFile
-      requireFiles.push subFile
+    ctx = 
+      GLOBAL_MODULES : {}
+      require : (subFile) ->
+        subFile += '.js' if !path.extname subFile
+        requireFiles.push subFile
+    console.dir ctx
     try
-      vm.runInNewContext code, context
+      vm.runInNewContext code, ctx
     catch e
       console.error e
     _.each requireFiles, (tmpFile) =>
