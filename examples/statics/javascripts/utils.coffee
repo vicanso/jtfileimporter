@@ -1,1 +1,0 @@
-sub = require '/javascripts/sub'
