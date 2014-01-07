@@ -7,9 +7,8 @@ _ = require 'underscore'
 fs = require 'fs'
 path = require 'path'
 events = require 'events'
-isProductionMode = process.env.NODE_ENV == 'production'
 jtModule = require 'jtmodule'
-
+JTMerge = require 'jtmerge'
 
 
 class FileImporter extends events.EventEmitter
@@ -21,6 +20,8 @@ class FileImporter extends events.EventEmitter
     @cssFiles = []
     @jsFiles = []
     @hosts ?= @options.hosts
+    if @options.merge
+      @jtMerge = new JTMerge @options.merge
     if @hosts
       if !_.isArray @hosts
         @hosts = [@hosts]
@@ -129,6 +130,8 @@ class FileImporter extends events.EventEmitter
       @_cssFiles = resultFiles
     else
       @_jsFiles = resultFiles
+    if @jtMerge
+      resultFiles = @jtMerge.getMergeExportFiles resultFiles
     htmlArr = _.map resultFiles, (file) =>
       @_getExportHTML file, type
     htmlArr.join ''
