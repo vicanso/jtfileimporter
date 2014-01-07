@@ -8,8 +8,8 @@ fs = require 'fs'
 path = require 'path'
 events = require 'events'
 isProductionMode = process.env.NODE_ENV == 'production'
-coffeeScript = require 'coffee-script'
-vm = require 'vm'
+jtModule = require 'jtmodule'
+
 
 
 class FileImporter extends events.EventEmitter
@@ -114,7 +114,7 @@ class FileImporter extends events.EventEmitter
         # else
         #   resultFiles.push file
         if type == 'js'
-          resultFiles.push.apply resultFiles, @_getDependencies file
+          resultFiles.push.apply resultFiles, jtModule.getDependencies @options.path, file
         else
           resultFiles.push file
       else
@@ -237,45 +237,4 @@ class FileImporter extends events.EventEmitter
       if srcExt && dstExt
         file = file.substring(0, file.length - srcExt.length) + dstExt
     file
-  _getDependencies : (file, hasCheckedFiles = []) ->
-    result = []
-    if ~_.indexOf hasCheckedFiles, file
-      return result
-    else
-      hasCheckedFiles.push file
-    staticPath = @options.path
-    componentPath = @options.component
-    if staticPath
-      readFile = path.join staticPath, file 
-    else
-      readFile = file
-    requireFiles = []
-    if !fs.existsSync readFile
-      readFile = readFile.replace path.extname(readFile), '.coffee'
-      code = fs.readFileSync readFile, 'utf8'
-      try
-          code = coffeeScript.compile code
-      catch err
-        throw err if err
-        return
-    else
-      code = fs.readFileSync readFile, 'utf8'
-    ctx = 
-      GLOBAL_MODULES : {}
-      module :
-        exports : {}
-      exports : {}
-      require : (subFile) ->
-        subFile += '.js' if !path.extname subFile
-        requireFiles.push subFile
-    try
-      vm.runInNewContext code, ctx
-    catch e
-      console.error e
-    _.each requireFiles, (tmpFile) =>
-      tmpFile = path.join path.dirname(file), tmpFile if tmpFile[0] == '.'
-      if !~_.indexOf result, tmpFile
-        result.push.apply result, @_getDependencies tmpFile, hasCheckedFiles
-    result.push file
-    _.uniq _.flatten result
 module.exports = FileImporter
