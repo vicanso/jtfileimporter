@@ -207,12 +207,15 @@ class FileImporter extends events.EventEmitter
   _getUrl : (file) ->
     hosts = @hosts
     version = @options.version
+    if @options.crc32List
+      crc32 = @options.crc32List[file]
+      version = crc32 if crc32
     urlPrefix = @options.urlPrefix
     if urlPrefix && urlPrefix.charAt(0) != '/'
       urlPrefix = '/' + urlPrefix
     if !@_isFilter file
       if version
-        file += "?version=#{version}"
+        file += "?v=#{version}"
       if file.charAt(0) != '/'
         file = '/' + file
       if urlPrefix
