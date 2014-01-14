@@ -7,7 +7,6 @@ _ = require 'underscore'
 fs = require 'fs'
 path = require 'path'
 events = require 'events'
-jtModule = require 'jtmodule'
 JTMerge = require 'jtmerge'
 
 
@@ -30,6 +29,11 @@ class FileImporter extends events.EventEmitter
           host = "http://#{host}"
         else
           host
+  addTemplateFiles : (template) ->
+    templateFilesInfo = FileImporter.TemplateInfos?[template]
+    if templateFilesInfo
+      @importJs templateFilesInfo.jsList
+      @importCss templateFilesInfo.cssList
   ###*
    * getFiles 获取文件列表
    * @param  {[type]} type [description]
@@ -114,10 +118,11 @@ class FileImporter extends events.EventEmitter
         #   resultFiles.push defineMergeList
         # else
         #   resultFiles.push file
-        if type == 'js'
-          resultFiles.push.apply resultFiles, jtModule.getDependencies @options.path, file
-        else
-          resultFiles.push file
+        # if type == 'js'
+        #   resultFiles.push.apply resultFiles, jtModule.getDependencies @options.path, file
+        # else
+        #   resultFiles.push file
+        resultFiles.push file
       else
         resultFiles.push file
     resultFiles = _.compact resultFiles
