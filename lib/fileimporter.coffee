@@ -135,7 +135,10 @@ class FileImporter extends events.EventEmitter
       @_cssFiles = resultFiles
     else
       @_jsFiles = resultFiles
-    if @jtMerge
+    if @options.debug && type != 'css'
+      resultFiles = _.map resultFiles, (file) ->
+        "/src#{file}"
+    if @jtMerge && !@options.debug
       resultFiles = @jtMerge.getMergeExportFiles resultFiles
     htmlArr = _.map resultFiles, (file) =>
       @_getExportHTML file, type
