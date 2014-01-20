@@ -29,11 +29,6 @@ class FileImporter extends events.EventEmitter
           host = "http://#{host}"
         else
           host
-  addTemplateFiles : (template) ->
-    templateFilesInfo = FileImporter.TemplateInfos?[template]
-    if templateFilesInfo
-      @importJs templateFilesInfo.jsList
-      @importCss templateFilesInfo.cssList
   ###*
    * getFiles 获取文件列表
    * @param  {[type]} type [description]
@@ -41,32 +36,36 @@ class FileImporter extends events.EventEmitter
   ###
   getFiles : (type) ->
     if type == 'css'
-      @_cssFiles
+      files = @_cssFiles
     else
-      @_jsFiles
+      files = @_jsFiles
+    _.uniq files
   ###*
    * importCss 引入css文件
    * @param  {String} file     css路径
+   * @param {Boolean} prepend  是否往往前插入
    * @return {FileImporter}         [description]
   ###
-  importCss : (file) ->
-    @importFiles file, 'css'
+  importCss : (file, prepend) ->
+    @importFiles file, 'css', prepend
     @
   ###*
    * importJs 引入js文件
    * @param  {String} file    js路径
+   * @param {Boolean} prepend  是否往往前插入
    * @return {FileImporter}         [description]
   ###
-  importJs : (file) ->
-    @importFiles file, 'js'
+  importJs : (file, prepend) ->
+    @importFiles file, 'js', prepend
     @
   ###*
    * importFiles 引入文件
    * @param  {String} file    文件路径
    * @param  {String} type    文件类型(css, js)
+   * @param {Boolean} prepend  是否往往前插入
    * @return {FileImporter}         [description]
   ###
-  importFiles : (file, type) ->
+  importFiles : (file, type, prepend) ->
     cssFiles = @cssFiles
     jsFiles = @jsFiles
     if _.isString file
@@ -74,13 +73,18 @@ class FileImporter extends events.EventEmitter
       if file.charAt(0) != '/' && !@_isFilter file
         file = '/' + file
       if type == 'css'
-        if !~_.indexOf cssFiles, file
+          if prepend
+            cssFiles.unshift file
+          else
             cssFiles.push file
-      else if !~_.indexOf jsFiles, file
+      else
+        if prepend
+          jsFiles.unshift file
+        else
           jsFiles.push file
     else if _.isArray file
       _.each file, (item) =>
-        @importFiles item, type
+        @importFiles item, type, prepend
     @
   ###*
    * exportCss 输出CSS标签
@@ -107,21 +111,11 @@ class FileImporter extends events.EventEmitter
       files = @cssFiles
     else
       files = @jsFiles
+    files = _.uniq files
     hosts = @hosts
     resultFiles = []
     _.each files, (file) =>
       if !@_isFilter file
-        # file = @_convertExt file
-        # 判断该文件是否在合并列表中
-        # defineMergeList = fileMerger.getDefineMergeList file, @options.mergeList
-        # if defineMergeList && isProductionMode
-        #   resultFiles.push defineMergeList
-        # else
-        #   resultFiles.push file
-        # if type == 'js'
-        #   resultFiles.push.apply resultFiles, jtModule.getDependencies @options.path, file
-        # else
-        #   resultFiles.push file
         resultFiles.push file
       else
         resultFiles.push file
@@ -143,29 +137,6 @@ class FileImporter extends events.EventEmitter
     htmlArr = _.map resultFiles, (file) =>
       @_getExportHTML file, type
     htmlArr.join ''
-
-    # mergeFile = (files) =>
-    #   linkFileName = fileMerger.mergeFilesToTemp files, type, @options.path, @options.mergePath
-    #   mergeUrlPrefix = @options.mergeUrlPrefix
-    #   if mergeUrlPrefix
-    #     linkFileName = "#{mergeUrlPrefix}/#{linkFileName}"
-    #   @_getExportHTML linkFileName, type
-    # 除预先定义需要合并的文件之外的所有文件  
-    # otherFiles = []
-    # htmlArr = _.map resultFiles, (result) =>
-    #   if _.isArray result
-    #     mergeFile result
-    #   else if merge && !@_isFilter result
-    #     otherFiles.push result
-    #     ''
-    #   else
-    #     @_getExportHTML result, type
-    # if otherFiles.length
-    #   htmlArr.push mergeFile otherFiles
-    # if @options.exportType == 'array' && type == 'js'
-    #   '<script type="text/javascript">var JT_JS_FILES =' + JSON.stringify(htmlArr) + ';</script>'
-    # else
-    #   htmlArr.join ''
 
   ###*
    * _isFilter 判断该文件是否应该过滤的
@@ -232,23 +203,5 @@ class FileImporter extends events.EventEmitter
         index = file.length % hosts.length
         host = hosts[index]
         file = host + file if host
-    file
-  ###*
-   * _convertExt 转换文件后缀
-   * @param  {[type]} file [description]
-   * @return {[type]}      [description]
-  ###
-  _convertExt : (file) ->
-    convertExts = @options.convertExts
-    if convertExts?.src && convertExts.dst
-      dstExt = ''
-      srcExt = _.find convertExts.src, (ext, i) ->
-        if ext == file.substring file.length - ext.length
-          dstExt = convertExts.dst[i]
-          true
-        else
-          false
-      if srcExt && dstExt
-        file = file.substring(0, file.length - srcExt.length) + dstExt
     file
 module.exports = FileImporter
