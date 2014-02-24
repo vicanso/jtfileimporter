@@ -1,0 +1,24 @@
+{
+  "name" : "jtfileimporter",
+  "description" : "import file in html",
+  "version" : "0.0.1",
+  "author" : {
+    "name" : "vicanso 墨鱼仔",
+    "email" : "vicansocanbico@gmail.com"
+  },
+  "keywords" : [
+    "node",
+    "static file",
+    "importer"
+  ],
+  "dependencies" : {
+    "underscore" : "latest",
+    "jtmerge" : "latest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vicanso/jtfileimporter"
+  },
+  "main": "index",
+  "readmeFilename": "README.md"
+}

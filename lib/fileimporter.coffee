@@ -193,12 +193,9 @@ class FileImporter extends events.EventEmitter
     if urlPrefix && urlPrefix.charAt(0) != '/'
       urlPrefix = '/' + urlPrefix
     if !@_isFilter file
-      if version
-        file += "?v=#{version}"
-      if file.charAt(0) != '/'
-        file = '/' + file
-      if urlPrefix
-        file = "#{urlPrefix}#{file}"
+      file += "?v=#{version}" if version
+      file = '/' + file if file.charAt(0) != '/'
+      file = "#{urlPrefix}#{file}" if urlPrefix
       if hosts
         index = file.length % hosts.length
         host = hosts[index]
