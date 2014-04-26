@@ -20,6 +20,17 @@ describe 'FileImporter', ->
       fileImporter.hosts hosts
       assert.equal hosts.join(''), fileImporter.hosts().join ''
 
+  describe '#prefix', ->
+    it 'should set prefix successful', ->
+      fileImporter.hosts null
+      prefix = '/static'
+      fileImporter.prefix prefix
+      assert.equal prefix, fileImporter.prefix()
+
+      cssFiles = ['1.css', 'http://baidu.com/1.css']
+      fileImporter.importCss cssFiles
+      assert.equal '<link rel="stylesheet" href="/static/1.css" type="text/css" /><link rel="stylesheet" href="http://baidu.com/1.css" type="text/css" />', fileImporter.exportCss()
+
   describe '#version', ->
     it 'should set version successful', ->
       versionConfig = '12345'
@@ -32,6 +43,7 @@ describe 'FileImporter', ->
 
   describe '#getFiles, #importCss, #importJs, #importFile', ->
     it 'should be done successful', ->
+      fileImporter = new FileImporter()
       jsFile = '1.js'
       fileImporter.importJs jsFile
       assert.equal jsFile, fileImporter.getFiles 'js'

@@ -6,6 +6,17 @@ class FileImporter
     @_cssFiles = []
     @_jsFiles = []
   ###*
+   * [prefix 设置url前缀]
+   * @param  {[type]} prefix [description]
+   * @return {[type]}        [description]
+  ###
+  prefix : (prefix) ->
+    if arguments.length == 0
+      @_prefix
+    else
+      @_prefix = prefix
+      @
+  ###*
    * [hosts description]
    * @param  {String, Array} hosts [description]
    * @return {[type]}       [description]
@@ -187,6 +198,7 @@ class FileImporter
         version = versionConfig[file] || versionConfig['default']
         file += "?v=#{version}" if version
     hosts = @_hosts
+    file = path.join @_prefix, file if @_prefix
     if hosts
       host = hosts[file.length % hosts.length]
       if host

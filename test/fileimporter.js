@@ -27,6 +27,18 @@
         return assert.equal(hosts.join(''), fileImporter.hosts().join(''));
       });
     });
+    describe('#prefix', function() {
+      return it('should set prefix successful', function() {
+        var cssFiles, prefix;
+        fileImporter.hosts(null);
+        prefix = '/static';
+        fileImporter.prefix(prefix);
+        assert.equal(prefix, fileImporter.prefix());
+        cssFiles = ['1.css', 'http://baidu.com/1.css'];
+        fileImporter.importCss(cssFiles);
+        return assert.equal('<link rel="stylesheet" href="/static/1.css" type="text/css" /><link rel="stylesheet" href="http://baidu.com/1.css" type="text/css" />', fileImporter.exportCss());
+      });
+    });
     describe('#version', function() {
       return it('should set version successful', function() {
         var versionConfig;
@@ -41,6 +53,7 @@
     describe('#getFiles, #importCss, #importJs, #importFile', function() {
       return it('should be done successful', function() {
         var cssFiles, jsFile;
+        fileImporter = new FileImporter();
         jsFile = '1.js';
         fileImporter.importJs(jsFile);
         assert.equal(jsFile, fileImporter.getFiles('js'));

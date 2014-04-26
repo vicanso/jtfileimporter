@@ -14,6 +14,22 @@
 
 
     /**
+     * [prefix 设置url前缀]
+     * @param  {[type]} prefix [description]
+     * @return {[type]}        [description]
+     */
+
+    FileImporter.prototype.prefix = function(prefix) {
+      if (arguments.length === 0) {
+        return this._prefix;
+      } else {
+        this._prefix = prefix;
+        return this;
+      }
+    };
+
+
+    /**
      * [hosts description]
      * @param  {String, Array} hosts [description]
      * @return {[type]}       [description]
@@ -271,6 +287,9 @@
         }
       }
       hosts = this._hosts;
+      if (this._prefix) {
+        file = path.join(this._prefix, file);
+      }
       if (hosts) {
         host = hosts[file.length % hosts.length];
         if (host) {
