@@ -49,7 +49,7 @@ describe 'FileImporter', ->
       assert.equal jsFile, fileImporter.getFiles 'js'
 
       cssFiles = ['1.css', '2.css']
-      fileImporter.importCss cssFiles
+      fileImporter.import cssFiles
       assert.equal cssFiles.join(''), fileImporter.getFiles('css').join ''
   describe '#exportCss, #exportJs', ->
     it 'should be export successful', ->

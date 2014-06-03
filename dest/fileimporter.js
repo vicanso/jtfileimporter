@@ -85,6 +85,33 @@
 
 
     /**
+     * [import 引入文件]
+     * @param  {String, Array} file [description]
+     * @return {[type]}      [description]
+     */
+
+    FileImporter.prototype["import"] = function(file) {
+      var ext, url, urlInfo;
+      url = require('url');
+      if (_.isArray(file)) {
+        return _.each(file, (function(_this) {
+          return function(tmp) {
+            return _this["import"](tmp);
+          };
+        })(this));
+      } else {
+        urlInfo = url.parse(file);
+        ext = path.extname(urlInfo.pathname);
+        if (ext === '.js') {
+          return this.importJs(file);
+        } else {
+          return this.importCss(file);
+        }
+      }
+    };
+
+
+    /**
      * [importCss description]
      * @param  {String, Array} file [description]
      * @return {[type]}      [description]

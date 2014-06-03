@@ -1,6 +1,7 @@
 _ = require 'underscore'
 path = require 'path'
 
+
 class FileImporter
   constructor : (@_merger) ->
     @_cssFiles = []
@@ -53,6 +54,24 @@ class FileImporter
     else
       files = @_cssFiles
     _.uniq files
+
+  ###*
+   * [import 引入文件]
+   * @param  {String, Array} file [description]
+   * @return {[type]}      [description]
+  ###
+  import : (file) ->
+    url = require 'url'
+    if _.isArray file
+      _.each file, (tmp) =>
+        @import tmp
+    else
+      urlInfo = url.parse file
+      ext = path.extname urlInfo.pathname
+      if ext == '.js'
+        @importJs file
+      else
+        @importCss file
 
   ###*
    * [importCss description]

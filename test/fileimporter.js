@@ -58,7 +58,7 @@
         fileImporter.importJs(jsFile);
         assert.equal(jsFile, fileImporter.getFiles('js'));
         cssFiles = ['1.css', '2.css'];
-        fileImporter.importCss(cssFiles);
+        fileImporter["import"](cssFiles);
         return assert.equal(cssFiles.join(''), fileImporter.getFiles('css').join(''));
       });
     });
