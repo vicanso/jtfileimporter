@@ -87,8 +87,10 @@
         exportCssStr = '<link rel="stylesheet" href="1.css" type="text/css" /><link rel="stylesheet" href="2.css" type="text/css" />';
         assert.equal(exportCssStr, importer.exportCss());
         importer.debug(true);
-        exportCssStr = '<link rel="stylesheet" href="/src/1.css" type="text/css" /><link rel="stylesheet" href="/src/2.css" type="text/css" />';
+        exportCssStr = '<link rel="stylesheet" href="1.css" type="text/css" /><link rel="stylesheet" href="2.css" type="text/css" />';
         assert.equal(exportCssStr, importer.exportCss());
+        exportJsStr = '<script type="text/javascript" src="/src/1.js"></script><script type="text/javascript" src="/src/2.js"></script><script type="text/javascript" src="/src/12.js"></script>';
+        assert.equal(exportJsStr, importer.exportJs());
         importer.debug(false);
         importer.version({
           '1.css': '123',

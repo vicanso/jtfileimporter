@@ -228,7 +228,11 @@
       tmpFiles = _.clone(files);
       if (this._debug) {
         tmpFiles = _.map(tmpFiles, function(file) {
-          return path.join('/src', file);
+          if (path.extname(file) === '.js') {
+            return path.join('/src', file);
+          } else {
+            return file;
+          }
         });
       } else {
         if (this._merger) {

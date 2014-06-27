@@ -163,7 +163,10 @@ class FileImporter
     tmpFiles = _.clone files
     if @_debug
       tmpFiles = _.map tmpFiles, (file) ->
-        path.join '/src', file
+        if path.extname(file) == '.js'
+          path.join '/src', file
+        else
+          file
     else
       tmpFiles = @_merger.getMergeExportFiles tmpFiles if @_merger
     htmlArr = _.map tmpFiles, (file) =>
