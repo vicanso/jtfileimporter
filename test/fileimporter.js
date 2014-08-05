@@ -74,11 +74,11 @@
         exportJsStr = '<script type="text/javascript" src="1.js?v=123"></script><script type="text/javascript" src="2.js?v=123"></script>';
         assert.equal(exportJsStr, importer.exportJs());
         importer.hosts('vicanso.com');
-        exportJsStr = '<script type="text/javascript" src="http:/vicanso.com/1.js?v=123"></script><script type="text/javascript" src="http:/vicanso.com/2.js?v=123"></script>';
+        exportJsStr = '<script type="text/javascript" src="//vicanso.com/1.js?v=123"></script><script type="text/javascript" src="//vicanso.com/2.js?v=123"></script>';
         assert.equal(exportJsStr, importer.exportJs());
         importer.importJs('12.js');
         importer.hosts(['vicanso.com', 'jenny.com']);
-        exportJsStr = '<script type="text/javascript" src="http:/vicanso.com/1.js?v=123"></script><script type="text/javascript" src="http:/vicanso.com/2.js?v=123"></script><script type="text/javascript" src="http:/jenny.com/12.js?v=123"></script>';
+        exportJsStr = '<script type="text/javascript" src="//vicanso.com/1.js?v=123"></script><script type="text/javascript" src="//vicanso.com/2.js?v=123"></script><script type="text/javascript" src="//jenny.com/12.js?v=123"></script>';
         assert.equal(exportJsStr, importer.exportJs());
         cssFiles = ['1.css', '2.css'];
         importer.version('');

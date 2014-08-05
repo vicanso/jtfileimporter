@@ -324,10 +324,7 @@
       if (hosts) {
         host = hosts[file.length % hosts.length];
         if (host) {
-          if ('http' !== host.substring(0, 4)) {
-            host = "http://" + host;
-          }
-          file = path.join(host, file);
+          file = "//" + (path.join(host, file));
         }
       }
       return file;

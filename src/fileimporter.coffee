@@ -223,9 +223,7 @@ class FileImporter
     file = path.join @_prefix, file if @_prefix
     if hosts
       host = hosts[file.length % hosts.length]
-      if host
-        host = "http://#{host}" if 'http' != host.substring 0, 4
-        file = path.join host,  file 
+      file = "//#{path.join(host, file)}" if host
     file
 
 module.exports = FileImporter
