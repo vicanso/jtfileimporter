@@ -145,7 +145,7 @@ class FileImporter
    * @return {Boolean}      [description]
   ###
   _isFilter : (file) ->
-    file.substring(0, 7) == 'http://' || file.substring(0, 8) == 'https://'
+    file.substring(0, 7) == 'http://' || file.substring(0, 8) == 'https://' || file.substring(0, 2) == '//'
 
 
   ###*

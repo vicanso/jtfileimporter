@@ -210,7 +210,7 @@
      */
 
     FileImporter.prototype._isFilter = function(file) {
-      return file.substring(0, 7) === 'http://' || file.substring(0, 8) === 'https://';
+      return file.substring(0, 7) === 'http://' || file.substring(0, 8) === 'https://' || file.substring(0, 2) === '//';
     };
 
 
