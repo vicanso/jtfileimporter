@@ -221,7 +221,7 @@ class FileImporter
         file += "?v=#{version}" if version
     hosts = @_hosts
     file = path.join @_prefix, file if @_prefix
-    if hosts
+    if hosts?.length
       host = hosts[file.length % hosts.length]
       file = "//#{path.join(host, file)}" if host
     file

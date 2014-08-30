@@ -321,7 +321,7 @@
       if (this._prefix) {
         file = path.join(this._prefix, file);
       }
-      if (hosts) {
+      if (hosts != null ? hosts.length : void 0) {
         host = hosts[file.length % hosts.length];
         if (host) {
           file = "//" + (path.join(host, file));
