@@ -90,24 +90,22 @@
      * @return {[type]}      [description]
      */
 
-    FileImporter.prototype["import"] = function(file) {
-      var ext, url, urlInfo;
+    FileImporter.prototype["import"] = function() {
+      var files, url;
+      files = _.flatten(_.toArray(arguments));
       url = require('url');
-      if (_.isArray(file)) {
-        return _.each(file, (function(_this) {
-          return function(tmp) {
-            return _this["import"](tmp);
-          };
-        })(this));
-      } else {
-        urlInfo = url.parse(file);
-        ext = path.extname(urlInfo.pathname);
-        if (ext === '.js') {
-          return this.importJs(file);
-        } else {
-          return this.importCss(file);
-        }
-      }
+      return _.each(files, (function(_this) {
+        return function(file) {
+          var ext, urlInfo;
+          urlInfo = url.parse(file);
+          ext = path.extname(urlInfo.pathname);
+          if (ext === '.js') {
+            return _this.importJs(file);
+          } else {
+            return _this.importCss(file);
+          }
+        };
+      })(this));
     };
 
 

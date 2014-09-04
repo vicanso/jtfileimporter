@@ -60,12 +60,10 @@ class FileImporter
    * @param  {String, Array} file [description]
    * @return {[type]}      [description]
   ###
-  import : (file) ->
+  import : ->
+    files = _.flatten _.toArray arguments
     url = require 'url'
-    if _.isArray file
-      _.each file, (tmp) =>
-        @import tmp
-    else
+    _.each files, (file) =>
       urlInfo = url.parse file
       ext = path.extname urlInfo.pathname
       if ext == '.js'
