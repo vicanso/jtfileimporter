@@ -1,7 +1,7 @@
 {
   "name": "jtfileimporter",
   "description": "import file in html",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "author": {
     "name": "vicanso 墨鱼仔",
     "email": "vicansocanbico@gmail.com"
@@ -12,14 +12,13 @@
     "importer"
   ],
   "dependencies": {
-    "underscore": "~1.6.0"
+    "underscore": "^1.7.0"
   },
   "devDependencies": {
-    "grunt-contrib-clean": "^0.5.0",
-    "grunt-contrib-coffee": "~0.10.1",
-    "grunt-contrib-jshint": "~0.9.2",
-    "grunt-shell-spawn": "~0.3.0",
-    "jscoverage": "~0.3.8"
+    "gulp": "^3.8.9",
+    "gulp-coverage": "^0.3.31",
+    "gulp-jshint": "^1.8.6",
+    "gulp-mocha": "^1.1.1"
   },
   "repository": {
     "type": "git",
