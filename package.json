@@ -1,7 +1,7 @@
 {
   "name": "jtfileimporter",
   "description": "import file in html",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "author": {
     "name": "vicanso 墨鱼仔",
     "email": "vicansocanbico@gmail.com"
@@ -24,6 +24,6 @@
     "type": "git",
     "url": "https://github.com/vicanso/jtfileimporter"
   },
-  "main": "dest/fileimporter",
+  "main": "index",
   "readmeFilename": "README.md"
 }
