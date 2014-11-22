@@ -77,7 +77,18 @@ describe('Importer', function(){
 
     });
   });
-
+  
+  describe('#getFiles', function(){
+    it('should get files successful', function(){
+      var importer = new Importer();
+      importer.import('/1.css', '/2.css', '/global.css');
+      importer.import('/1.js', '/2.js', '/3.js', '/4.js', '/jquery.min.js');
+      var jsFiles = [ '/1.js', '/2.js', '/3.js', '/4.js', '/jquery.min.js' ];
+      var cssFiles = ['/1.css', '/2.css', '/global.css'];
+      assert.equal(importer.getFiles('js').join(''), jsFiles.join(''));
+      assert.equal(importer.getFiles('css').join(''), cssFiles.join(''));
+    });
+  });
 
   describe('#merge', function(){
     it('should set merge info successful', function(){
