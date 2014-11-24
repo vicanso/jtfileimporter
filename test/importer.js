@@ -140,7 +140,7 @@ describe('Importer', function(){
         '/abc/1.css' : '123',
         '/2.css' : '234'
       };
-      var exportCssStr = '<link rel="stylesheet" href="/abc/1_123.css" type="text/css" /><link rel="stylesheet" href="/2_234.css" type="text/css" />';
+      var exportCssStr = '<link rel="stylesheet" href="/abc/1.123.css" type="text/css" /><link rel="stylesheet" href="/2.234.css" type="text/css" />';
       assert.equal(exportCssStr, importer.exportCss());
     });
   })
