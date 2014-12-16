@@ -21,6 +21,6 @@ gulp.task('test', function(){
     .pipe(cover.report({
       outFile : 'coverage.html'
     }));
-})
+});
 
 gulp.task('default', ['jshint', 'test']);
