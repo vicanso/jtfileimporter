@@ -1,9 +1,12 @@
 
+# JTFileImporter
+
+[![Build Status](https://travis-ci.org/vicanso/jtfileimporter.svg)](https://api.travis-ci.org/vicanso/jtfileimporter.png)
+
 # 背景
 
 在web开发过程中，网页中如何引入静态文件成为一个需要解决的问题，传统的直接写标签引入的方式已经不再适用，如何更好的管理静态文件的引入已成为首要的解决问题
 
-[![Build Status](https://travis-ci.org/vicanso/jtfileimporter.svg)](https://api.travis-ci.org/vicanso/jtfileimporter.png)
 
 # 需求
 
@@ -28,7 +31,7 @@
 
 - [version](#version)
 
-- [versionMode]](#versionMode)
+- [versionMode](#versionMode)
 
 - [debug](#debug)
 
