@@ -11,6 +11,9 @@
     "static file",
     "importer"
   ],
+  "scripts" : {
+    "test" : "gulp test"
+  },
   "dependencies": {
     "underscore": "^1.7.0"
   },

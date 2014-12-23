@@ -17,7 +17,7 @@ gulp.task('test', function(){
     .pipe(cover.instrument({
       pattern : ['./lib/*.js']
     }))
-    .pipe(mocha({reporter: 'nyan'}))
+    .pipe(mocha({reporter: 'spec'}))
     .pipe(cover.report({
       outFile : 'coverage.html'
     }));
