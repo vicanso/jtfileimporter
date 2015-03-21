@@ -11,11 +11,11 @@
     "static file",
     "importer"
   ],
-  "scripts" : {
-    "test" : "gulp test"
+  "scripts": {
+    "test": "gulp test"
   },
   "dependencies": {
-    "underscore": "^1.7.0"
+    "lodash": "^3.5.0"
   },
   "devDependencies": {
     "gulp": "^3.8.9",
