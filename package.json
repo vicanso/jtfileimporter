@@ -1,7 +1,7 @@
 {
   "name": "jtfileimporter",
   "description": "import file in html",
-  "version": "0.2.0",
+  "version": "0.4.0",
   "author": {
     "name": "vicanso 墨鱼仔",
     "email": "vicansocanbico@gmail.com"
@@ -18,10 +18,11 @@
     "lodash": "^3.5.0"
   },
   "devDependencies": {
-    "gulp": "^3.8.9",
-    "gulp-coverage": "^0.3.31",
-    "gulp-jshint": "^1.8.6",
-    "gulp-mocha": "^1.1.1"
+    "gulp": "^3.9.0",
+    "gulp-coverage": "^0.3.36",
+    "gulp-istanbul": "^0.10.0",
+    "gulp-jshint": "^1.10.1",
+    "gulp-mocha": "^2.1.2"
   },
   "repository": {
     "type": "git",
