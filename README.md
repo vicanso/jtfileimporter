@@ -33,10 +33,6 @@
 
 - [versionMode](#versionMode)
 
-- [debug](#debug)
-
-- [srcPath](#srcPath)
-
 - [import](#import)
 
 - [exportCss](#exportCss)
@@ -48,7 +44,7 @@
 
 ```js
 var Importer = require('jtfileimporter');
-var importer = new Importer();    
+var importer = new Importer();
 ```
 
 
@@ -113,22 +109,6 @@ importer.version = {
 importer.exportCss(); // <link rel="stylesheet" href="/abc/1_123.css" type="text/css" /><link rel="stylesheet" href="/2_234.css" type="text/css" />
 ```
 
-<a name="debug" />
-## debug
-### 开启、禁用debug模式（在debug模式下，不会使用合并的js文件，且可以设置srcPath，用于使用非压缩代码）
-
-```js
-var Importer = require('jtfileimporter');
-var importer = new Importer();
-importer.import('/1.js', '/2.js', '/3.js', '/4.js', '//jquery.com/jquery.min.js');
-importer.debug = true;
-importer.srcPath = '/src';
-importer.exportJs();  //<script type="text/javascript" src="/src/1.js"></script><script type="text/javascript" src="/src/2.js"></script><script type="text/javascript" src="/src/3.js"></script><script type="text/javascript" src="/src/4.js"></script><script type="text/javascript" src="//jquery.com/jquery.min.js"></script>
-```
-
-<a name="srcPath" />
-## srcPath
-### 设置debug模式下引入文件的路径（参考上面的debug的例子）
 
 <a name="import" />
 ## import

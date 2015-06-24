@@ -15,11 +15,11 @@
     "test": "gulp test"
   },
   "dependencies": {
-    "lodash": "^3.5.0"
+    "debug": "^2.2.0",
+    "lodash": "^3.9.3"
   },
   "devDependencies": {
     "gulp": "^3.9.0",
-    "gulp-coverage": "^0.3.36",
     "gulp-istanbul": "^0.10.0",
     "gulp-jshint": "^1.10.1",
     "gulp-mocha": "^2.1.2"

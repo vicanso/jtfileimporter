@@ -1,4 +1,4 @@
 node_modules
+coverage
 .coverrun
-.coverdata
 npm-debug.log
