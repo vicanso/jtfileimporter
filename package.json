@@ -1,33 +1,33 @@
 {
-  "name": "jtfileimporter",
-  "description": "import file in html",
-  "version": "0.4.0",
-  "author": {
-    "name": "vicanso 墨鱼仔",
-    "email": "vicansocanbico@gmail.com"
-  },
-  "keywords": [
-    "node",
-    "static file",
-    "importer"
-  ],
-  "scripts": {
-    "test": "gulp test"
-  },
-  "dependencies": {
-    "debug": "^2.2.0",
-    "lodash": "^3.9.3"
-  },
-  "devDependencies": {
-    "gulp": "^3.9.0",
-    "gulp-istanbul": "^0.10.0",
-    "gulp-jshint": "^1.10.1",
-    "gulp-mocha": "^2.1.2"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/vicanso/jtfileimporter"
-  },
-  "main": "index",
-  "readmeFilename": "README.md"
+	"name": "jtfileimporter",
+	"description": "import file in template",
+	"version": "0.4.2",
+	"author": {
+		"name": "vicanso 墨鱼仔",
+		"email": "vicansocanbico@gmail.com"
+	},
+	"keywords": [
+		"node",
+		"static file",
+		"importer"
+	],
+	"scripts": {
+		"test": "node ./node_modules/.bin/eslint index.js && node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha test/*.js --"
+	},
+	"dependencies": {
+		"debug": "^2.2.0",
+		"lodash": "^3.10.1",
+		"url-join": "0.0.1"
+	},
+	"devDependencies": {
+		"eslint": "^1.10.3",
+		"istanbul": "^0.4.1",
+		"mocha": "^2.3.4"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/vicanso/jtfileimporter"
+	},
+	"license": "MIT",
+	"readmeFilename": "README.md"
 }

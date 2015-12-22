@@ -1,145 +1,146 @@
-"use strict";
+'use strict';
 const assert = require('assert');
-const Importer = require('../lib/importer');
+const Importer = require('..');
+const util = require('util');
+describe('Importer', () => {
+	it('should new Importer success', () => {
+		const importer = new Importer();
+		assert(util.isObject(importer._options));
+		assert(util.isArray(importer._jsFiles));
+		assert(util.isArray(importer._cssFiles));
+	});
 
-describe('Importer', function() {
-  describe('#prefix', function() {
-    it('should set prefix successful', function() {
-      let importer = new Importer();
-      let prefix = '/static';
-      importer.prefix = prefix;
-      assert.equal(prefix, importer.prefix);
-
-      let cssFiles = ['1.css', 'http://baidu.com/1.css'];
-      importer.import(cssFiles);
-      assert.equal('<link rel="stylesheet" href="/static/1.css" type="text/css" /><link rel="stylesheet" href="http://baidu.com/1.css" type="text/css" />', importer.exportCss());
-    });
-  });
-
-
-  describe('#hosts', function() {
-    it('should set hosts successful', function() {
-      let importer = new Importer();
-      let host = 'vicanso.com';
-      importer.hosts = host;
-      assert(host, importer.hosts.join(''));
-
-      let hosts = ['vicanso.com', 'jenny.com'];
-      importer.hosts = hosts;
-      assert.equal(hosts.join(''), importer.hosts.join(''));
-
-      importer.hosts = null;
-      assert.equal(importer.hosts, null);
-    });
-  });
+	it('should set prefix success', () => {
+		const importer = new Importer();
+		importer.prefix = '/albi';
+		assert.equal(importer._options.prefix, '/albi');
+		assert.equal(importer.prefix, '/albi');
+	});
 
 
-  describe('#version', function() {
-    it('should set version successful', function () {
-      let importer = new Importer();
-      let version = '12345';
-      importer.version = version;
-      assert.equal(version, importer.version);
-    });
-  });
+	it('should set hosts success', () => {
+		const importer = new Importer();
+		assert(!importer.hosts);
+		importer.hosts = 'albi.io';
+		assert.equal(importer.hosts.join(), 'albi.io');
+		importer.hosts = null;
+		assert(!importer.hosts);
+	});
 
 
-  describe('#import, #exportsCss, #exportsJs', function () {
-    it('should import file and export successful', function() {
-      let importer = new Importer();
-      let files = ['1.js', '2.js'];
-      importer.import(files);
-      importer.import('');
-      let exportJsStr = '<script type="text/javascript" src="1.js"></script><script type="text/javascript" src="2.js"></script>';
-      assert.equal(exportJsStr, importer.exportJs());
+	it('should set version success', () => {
+		const importer = new Importer();
+		assert(!importer.version);
+		importer.version = '2015-12-25';
+		assert.equal(importer.version, '2015-12-25');
 
-      // set version
-      importer.version = '123';
-      exportJsStr = '<script type="text/javascript" src="1.js?v=123"></script><script type="text/javascript" src="2.js?v=123"></script>';
-      assert.equal(exportJsStr, importer.exportJs());
+		importer.version = {
+			'/a.js': '1234',
+			'/b.css': '4567',
+			'default': '2015-12-25'
+		};
+		assert.equal(importer.version['/a.js'], '1234');
+		assert.equal(importer.version['/b.css'], '4567');
+		assert.equal(importer.version['default'], '2015-12-25');
+	});
 
-      // set hosts
-      importer.hosts = 'vicanso.com';
-      exportJsStr = '<script type="text/javascript" src="//vicanso.com/1.js?v=123"></script><script type="text/javascript" src="//vicanso.com/2.js?v=123"></script>';
-      assert.equal(exportJsStr, importer.exportJs());
+	it('should set versionMode success', () => {
+		const importer = new Importer();
+		assert(!importer.versionMode);
 
+		importer.versionMode = 1;
+		assert.equal(importer.versionMode, 1);
 
-      importer.import('12.js');
-      importer.hosts = ['vicanso.com', 'jenny.com'];
-      exportJsStr = '<script type="text/javascript" src="//vicanso.com/1.js?v=123"></script><script type="text/javascript" src="//vicanso.com/2.js?v=123"></script><script type="text/javascript" src="//jenny.com/12.js?v=123"></script>';
-      assert.equal(exportJsStr, importer.exportJs());
+	});
 
+	it('should import file success', () => {
+		const importer = new Importer();
+		importer.import('/a.css', '/b.js');
+		assert.equal(importer._cssFiles.join(), '/a.css');
+		assert.equal(importer._jsFiles.join(), '/b.js');
 
-      importer = new Importer();
-      importer.import('1.css', ['2.css']);
-      var exportCssStr = '<link rel="stylesheet" href="1.css" type="text/css" /><link rel="stylesheet" href="2.css" type="text/css" />';
-      assert.equal(exportCssStr, importer.exportCss());
+		importer.import(['/c.css']);
+		importer.import('/d.js');
+		importer.import('/d.js');
+		importer.import('');
 
-      importer.version = {
-        '1.css' : '123',
-        'default' : '234'
-      };
-      exportCssStr = '<link rel="stylesheet" href="1.css?v=123" type="text/css" /><link rel="stylesheet" href="2.css?v=234" type="text/css" />';
-      assert.equal(exportCssStr, importer.exportCss());
-
-    });
-  });
-
-
-  describe('#getFiles', function () {
-    it('should get files successful', function() {
-      let importer = new Importer();
-      importer.import('/1.css', '/2.css', '/global.css');
-      importer.import('/1.js', '/2.js', '/3.js', '/4.js', '/jquery.min.js');
-      let jsFiles = [ '/1.js', '/2.js', '/3.js', '/4.js', '/jquery.min.js' ];
-      let cssFiles = ['/1.css', '/2.css', '/global.css'];
-      assert.equal(importer.getFiles('js').join(''), jsFiles.join(''));
-      assert.equal(importer.getFiles('css').join(''), cssFiles.join(''));
-    });
-  });
+		assert.equal(importer._cssFiles.join(), '/a.css,/c.css');
+		assert.equal(importer._jsFiles.join(), '/b.js,/d.js');
+	});
 
 
-  describe('#merge', function(){
-    it('should set merge info successful', function(){
-      let importer = new Importer();
-      importer.import('/1.css', '/2.css', '/global.css');
-      importer.import('/1.js', '/2.js', '/3.js', '/4.js', '/jquery.min.js');
-      importer.merge = {
-        "path" : "/merge",
-        "except" : [
-          "/jquery.min.js",
-          "/global.css"
-        ],
-        "files" : [
-          [
-            "/1.css",
-            "/2.css"
-          ],
-          [
-            "/1.js",
-            "/3.js"
-          ]
-        ]
-      };
-      let exportCssStr = '<link rel="stylesheet" href="/merge/1,2.css" type="text/css" /><link rel="stylesheet" href="/global.css" type="text/css" />';
-      assert.equal(exportCssStr, importer.exportCss());
-      let exportJsStr = '<script type="text/javascript" src="/merge/1,3.js"></script><script type="text/javascript" src="/jquery.min.js"></script><script type="text/javascript" src="/merge/2,4.js"></script>';
-      assert.equal(exportJsStr, importer.exportJs());
-    });
-  });
+	it('should export file success, no version setting', () => {
+		const importer = new Importer();
+		importer.import('/a.css', '/b.js');
+
+		assert.equal(importer.exportCss(), '<link rel="stylesheet" href="/a.css" type="text/css" />');
+		assert.equal(importer.exportJs(), '<script type="text/javascript" src="/b.js"></script>');
+	});
+
+	it('should export file success, with version setting', () => {
+		const imp1 = new Importer();
+		imp1.import('/a.css', '/b.js');
+
+		imp1.version = {
+			'/a.css': 1234,
+			'default': 5678
+		};
+
+		assert.equal(imp1.exportCss(), '<link rel="stylesheet" href="/a.css?v=1234" type="text/css" />');
+		assert.equal(imp1.exportJs(), '<script type="text/javascript" src="/b.js?v=5678"></script>');
+
+		const imp2 = new Importer();
+		imp2.import('/a.css', '/b.js');
+		imp2.version = '2015-12-25';
+		assert.equal(imp2.exportCss(), '<link rel="stylesheet" href="/a.css?v=2015-12-25" type="text/css" />');
+		assert.equal(imp2.exportJs(), '<script type="text/javascript" src="/b.js?v=2015-12-25"></script>');
 
 
-  describe('#versionMode', function(){
-    it('should set version mode successful', function(){
-      let importer = new Importer();
-      importer.import('/abc/1.css', '/2.css');
-      importer.versionMode = 1;
-      importer.version = {
-        '/abc/1.css' : '123',
-        '/2.css' : '234'
-      };
-      let exportCssStr = '<link rel="stylesheet" href="/abc/1.123.css" type="text/css" /><link rel="stylesheet" href="/2.234.css" type="text/css" />';
-      assert.equal(exportCssStr, importer.exportCss());
-    });
-  })
+		const imp3 = new Importer();
+		imp3.import('/a.css');
+		imp3.version = {
+			'/a.css': 1234
+		};
+		imp3.versionMode = 1;
+
+		assert.equal(imp3.exportCss(), '<link rel="stylesheet" href="/a.1234.css" type="text/css" />');
+
+	});
+
+	it('should export external file success', () => {
+		const importer = new Importer();
+		importer.import('http://www.baidu.com/a.css', '//www.baidu.com/b.js');
+
+		importer.version = '2015-12-25';
+
+		assert.equal(importer.exportCss(), '<link rel="stylesheet" href="http://www.baidu.com/a.css" type="text/css" />');
+		assert.equal(importer.exportJs(), '<script type="text/javascript" src="//www.baidu.com/b.js"></script>');
+
+	});
+
+	it('should export file success with prefix', () => {
+		const importer = new Importer();
+
+		importer.prefix = '/albi';
+
+		importer.import('/a.css');
+
+		assert.equal(importer.exportCss(), '<link rel="stylesheet" href="/albi/a.css" type="text/css" />');
+	});
+
+	it('should export file success with multi host', () => {
+		const importer = new Importer();
+		importer.hosts = [
+			'1.cdn.com',
+			'2.cdn.com'
+		];
+
+		importer.import('/a.css');
+		importer.import('/b.js', '/ab.js');
+
+
+		assert.equal(importer.exportCss(), '<link rel="stylesheet" href="//1.cdn.com/a.css" type="text/css" />');
+		assert.equal(importer.exportJs(), '<script type="text/javascript" src="//2.cdn.com/b.js"></script><script type="text/javascript" src="//1.cdn.com/ab.js"></script>');
+	});
+
 });
