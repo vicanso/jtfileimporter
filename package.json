@@ -1,7 +1,7 @@
 {
 	"name": "jtfileimporter",
 	"description": "import file in template",
-	"version": "0.4.2",
+	"version": "1.0.0",
 	"author": {
 		"name": "vicanso 墨鱼仔",
 		"email": "vicansocanbico@gmail.com"
@@ -15,9 +15,9 @@
 		"test": "node ./node_modules/.bin/eslint index.js && node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha test/*.js --"
 	},
 	"dependencies": {
-		"debug": "^2.2.0",
-		"lodash": "^3.10.1",
-		"url-join": "0.0.1"
+		"debug": "^2.3.3",
+		"lodash": "^4.17.2",
+		"url-join": "^1.1.0"
 	},
 	"devDependencies": {
 		"eslint": "^1.10.3",
